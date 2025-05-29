@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoClick | Otimizando o Atendimento na Policlínica de Saquarema</title>
+    <meta name="description" content="Projeto acadêmico desenvolvido por estudantes da Universidade de Vassouras para reduzir filas e melhorar a gestão de saúde pública em Saquarema.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="Logo.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #3498db;
+            --dark-blue: #2c3e50;
+            --light-blue: #ecf0f1;
+            --green-accent: #27ae60;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --text-dark: #2c3e50;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-hover: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+
+        /* Header & Navigation */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--green-accent));
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,100 1000,0"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: var(--primary-blue);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s both;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark-blue);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gray-medium);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--gray-light);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .team-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Problems Section */
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .problem-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--green-accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        /* Solutions Section */
+        .solutions {
+            background: var(--gray-light);
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .solution-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary-blue);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .solution-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+        }
+
+        .solution-features {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .solution-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .solution-features li::before {
+            content: '✓';
+            color: var(--green-accent);
+            font-weight: bold;
+        }
+
+        /* Prototypes Section */
+        .prototype-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .prototype-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+        }
+
+        .prototype-link {
+            display: inline-block;
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .prototype-link:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+
+        .prototype-visual {
+            background: var(--light-blue);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        /* Accessibility Section */
+        .accessibility {
+            background: var(--gray-light);
+        }
+
+        .accessibility-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .accessibility-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .accessibility-icon {
+            font-size: 3rem;
+            color: var(--green-accent);
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-blue);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .submit-btn {
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+        }
+
+        .contact-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-blue);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-blue);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-grid,
+            .prototype-showcase,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .problems-grid,
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <img src="Logo.jpg" alt="PoClick Logo" class="logo-img" id="logoImage">
+                    PoClick
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#problems">Problemas</a></li>
+                    <li><a href="#solutions">Soluções</a></li>
+                    <li><a href="#prototypes">Protótipos</a></li>
+                    <li><a href="#accessibility">Acessibilidade</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="menu-toggle" onclick="toggleMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Otimizando o Atendimento na Policlínica de Saquarema</h1>
+                <p>Revolucionando o atendimento na Policlínica de Saquarema através da tecnologia e inovação acadêmica</p>
+                <a href="#about" class="cta-button">Conheça o Projeto</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Sobre o Projeto</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Nossa Missão</h3>
+                    <p>O PoClick surge da necessidade de modernizar e otimizar o atendimento na Policlínica de Saquarema, reduzindo filas, melhorando a organização e proporcionando uma experiência mais eficiente para pacientes e profissionais.</p>
+                    <p>Desenvolvido como projeto acadêmico, nossa solução integra tecnologia de ponta com foco na acessibilidade e usabilidade, garantindo que todos os usuários possam se beneficiar das funcionalidades oferecidas.</p>
+                </div>
+                <div class="team-info">
+                    <h3>Equipe de Desenvolvimento</h3>
+                    <p><strong>Universidade de Vassouras</strong></p>
+                    <p>Curso: Engenharia de Software</p>
+                    <p>Estudantes dedicados ao desenvolvimento de soluções tecnológicas para problemas reais da comunidade de Saquarema.</p>
+                    <p>Orientação acadêmica focada em metodologias ágeis e design centrado no usuário.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section id="problems">
+        <div class="container">
+            <h2 class="section-title">Problemas Identificados</h2>
+            <p class="section-subtitle">Através de pesquisa de campo, identificamos os principais desafios enfrentados na Policlínica de Saquarema</p>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Filas Extensas</h3>
+                    <p>Longas esperas para agendamento e atendimento, causando desconforto e perda de tempo para os pacientes.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <h3>Desorganização</h3>
+                    <p>Falta de sistema integrado para gestão de consultas, resultando em conflitos de horários e informações desencontradas.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Processos Manuais</h3>
+                    <p>Dependência de papelada e processos analógicos que dificultam o acompanhamento e controle dos atendimentos.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Falta de Comunicação</h3>
+                    <p>Ausência de canais eficientes de comunicação entre pacientes, profissionais e gestão.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="solutions">
+        <div class="container">
+            <h2 class="section-title">Nossa Solução</h2>
+            <p class="section-subtitle">Sistema integrado com três perfis distintos para atender todas as necessidades da Policlínica</p>
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <h3>Perfil Paciente</h3>
+                    <p>Interface intuitiva para que os pacientes possam gerenciar seus atendimentos de forma independente.</p>
+                    <ul class="solution-features">
+                        <li>Agendamento online de consultas</li>
+                        <li>Visualização de histórico médico</li>
+                        <li>Notificações e lembretes</li>
+                        <li>Avaliação de atendimento</li>
+                        <li>Cancelamento e reagendamento</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <h3>Perfil Profissional</h3>
+                    <p>Ferramentas especializadas para médicos e enfermeiros otimizarem seu trabalho diário.</p>
+                    <ul class="solution-features">
+                        <li>Agenda digital personalizada</li>
+                        <li>Acesso rápido ao prontuário</li>
+                        <li>Sistema de prescrições</li>
+                        <li>Comunicação com pacientes</li>
+                        <li>Relatórios de atendimento</li>
+                    </ul>
+                </div>
+                <div class="solution-card">
+                    <h3>Perfil Gestão</h3>
+                    <p>Dashboard completo para administradores monitorem e otimizarem a operação da Policlínica.</p>
+                    <ul class="solution-features">
+                        <li>Relatórios gerenciais</li>
+                        <li>Controle de capacidade</li>
+                        <li>Análise de desempenho</li>
+                        <li>Gestão de recursos</li>
+                        <li>Indicadores de qualidade</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prototypes Section -->
+    <section id="prototypes">
+        <div class="container">
+            <h2 class="section-title">Protótipos Visuais</h2>
+            <div class="prototype-showcase">
+                <div class="prototype-info">
+                    <h3>Design Centrado no Usuário</h3>
+                    <p>Nossos protótipos foram desenvolvidos com foco na experiência do usuário, priorizando a simplicidade e eficiência. Cada tela foi cuidadosamente projetada para garantir uma navegação intuitiva.</p>
+                    <p>O design responsivo garante que a aplicação funcione perfeitamente em dispositivos móveis, tablets e desktops, adaptando-se às necessidades de cada usuário.</p>
+                    <div class="prototype-actions">
+                        <button onclick="uploadPrototype()" class="prototype-link">
+                            <i class="fas fa-upload"></i> Adicionar Protótipos
+                        </button>
+                        <input type="file" id="prototypeUpload" accept="image/*" multiple style="display: none;" onchange="handlePrototypeUpload(event)">
+                    </div>
+                </div>
+                <div class="prototype-visual">
+                    <i class="fas fa-mobile-alt" style="font-size: 4rem; color: var(--primary-blue); margin-bottom: 1rem;"></i>
+                    <h4>Visualização Responsiva</h4>
+                    <p>Interface adaptável para todos os dispositivos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accessibility Section -->
+    <section id="accessibility" class="accessibility">
+        <div class="container">
+            <h2 class="section-title">Acessibilidade e Inclusão</h2>
+            <p class="section-subtitle">Comprometidos em tornar a saúde digital acessível para todos os usuários</p>
+            <div class="accessibility-features">
+                <div class="accessibility-card">
+                    <div class="accessibility-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Alto Contraste</h3>
+                    <p>Modo de alto contraste para usuários com deficiência visual, garantindo melhor legibilidade.</p>
+                </div>
+                <div class="accessibility-card">
+                    <div class="accessibility-icon">
+                        <i class="fas fa-text-height"></i>
+                    </div>
+                    <h3>Tamanho de Fonte</h3>
+                    <p>Ajuste dinâmico do tamanho da fonte para atender diferentes necessidades visuais.</p>
+                </div>
+                <div class="accessibility-card">
+                    <div class="accessibility-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>IA Assistiva (Futuro)</h3>
+                    <p>Integração futura com inteligência artificial para assistência por voz e navegação guiada.</p>
+                </div>
+                <div class="accessibility-card">
+                    <div class="accessibility-icon">
+                        <i class="fas fa-universal-access"></i>
+                    </div>
+                    <h3>Navegação Simplificada</h3>
+                    <p>Interface intuitiva com navegação por teclado e compatibilidade com leitores de tela.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Entre em Contato</h2>
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <h3>Envie uma Mensagem</h3>
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Assunto</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <h3>Informações de Contato</h3>
+                    <p><i class="fas fa-university"></i> Universidade de Vassouras</p>
+                    <p><i class="fas fa-graduation-cap"></i> Engenharia de Software</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Saquarema, Rio de Janeiro</p>
+                    <p><i class="fas fa-envelope"></i> Emanuelly@gmil.com</p>
+                    <p><i class="fas fa-envelope"></i> Cintia@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> Gabriel@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> JoãoVictor@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> Kayck@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> kayo@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> Nayara@gmail.com</p>
+                    <p><i class="fas fa-envelope"></i> Paulo@gmail.com</p>
+                    
+                    
+                    <h4 style="margin-top: 2rem;">Parcerias e Colaborações</h4>
+                    <p>Estamos abertos a parcerias com profissionais de saúde, gestores públicos e outros desenvolvedores interessados em contribuir para a melhoria da saúde pública em Saquarema.</p>
+                    
+                    <div class="social-links">
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="E-mail"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 PoClick - Projeto Acadêmico | Universidade de Vassouras | Desenvolvido com ❤️ para Saquarema</p>
+        </div>
+    </footer>
+
+    <script>
+        // Logo Upload Functionality
+        function addLogo() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = handleLogoUpload;
+            input.click();
+        }
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const logoImg = document.getElementById('logoImage');
+                    logoImg.src = e.target.result;
+                    logoImg.alt = 'PoClick Logo';
+                    announceToScreenReader('Logo atualizada com sucesso');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Prototype Upload Functionality
+        function uploadPrototype() {
+            document.getElementById('prototypeUpload').click();
+        }
+
+        function handlePrototypeUpload(event) {
+            const files = event.target.files;
+            const prototypeVisual = document.querySelector('.prototype-visual');
+            
+            if (files.length > 0) {
+                // Clear existing content
+                prototypeVisual.innerHTML = '<h4>Protótipos do Projeto</h4>';
+                
+                // Create carousel container
+                const carousel = document.createElement('div');
+                carousel.className = 'prototype-carousel';
+                carousel.style.cssText = `
+                    display: flex;
+                    gap: 10px;
+                    overflow-x: auto;
+                    padding: 20px 0;
+                    scroll-behavior: smooth;
+                `;
+                
+                Array.from(files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.style.cssText = `
+                            flex: 0 0 auto;
+                            width: 200px;
+                            height: 300px;
+                            border-radius: 12px;
+                            overflow: hidden;
+                            box-shadow: var(--shadow);
+                            transition: transform 0.3s ease;
+                        `;
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = `Protótipo ${index + 1}`;
+                        img.style.cssText = `
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            cursor: pointer;
+                        `;
+                        
+                        img.onclick = () => openImageModal(e.target.result, `Protótipo ${index + 1}`);
+                        imgContainer.onmouseover = () => imgContainer.style.transform = 'scale(1.05)';
+                        imgContainer.onmouseout = () => imgContainer.style.transform = 'scale(1)';
+                        
+                        imgContainer.appendChild(img);
+                        carousel.appendChild(imgContainer);
+                    };
+                    reader.readAsDataURL(file);
+                });
+                
+                prototypeVisual.appendChild(carousel);
+                announceToScreenReader(`${files.length} protótipos adicionados com sucesso`);
+            }
+        }
+
+        // Image Modal for full view
+        function openImageModal(src, alt) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2000;
+                cursor: pointer;
+            `;
+            
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = alt;
+            img.style.cssText = `
+                max-width: 90%;
+                max-height: 90%;
+                object-fit: contain;
+                border-radius: 8px;
+            `;
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.style.cssText = `
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 3rem;
+                cursor: pointer;
+                z-index: 2001;
+            `;
+            
+            closeBtn.onclick = () => document.body.removeChild(modal);
+            modal.onclick = () => document.body.removeChild(modal);
+            img.onclick = (e) => e.stopPropagation();
+            
+            modal.appendChild(img);
+            modal.appendChild(closeBtn);
+            document.body.appendChild(modal);
+        }
+            const navLinks = document.querySelector('.nav-links');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            
+            if (navLinks.classList.contains('active')) {
+                announceToScreenReader('Menu aberto');
+            } else {
+                announceToScreenReader('Menu fechado');
+            }
+        }
+
+        // Theme Toggle
+        let isDarkMode = false;
+        
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (!isDarkMode) {
+                // Apply dark mode
+                body.style.setProperty('--white', '#1a1a1a');
+                body.style.setProperty('--gray-light', '#2d2d2d');
+                body.style.setProperty('--text-dark', '#ffffff');
+                body.style.setProperty('--dark-blue', '#4a90e2');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                isDarkMode = true;
+            } else {
+                // Apply light mode
+                body.style.setProperty('--white', '#ffffff');
+                body.style.setProperty('--gray-light', '#f8f9fa');
+                body.style.setProperty('--text-dark', '#2c3e50');
+                body.style.setProperty('--dark-blue', '#2c3e50');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                isDarkMode = false;
+            }
+        }
+
+        // Form Submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+            
+            // Simulate form submission
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+            event.target.reset();
+        }
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                
+                // Close mobile menu if open
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks.classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'var(--white)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Intersection Observer for Animation on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.problem-card, .solution-card, .accessibility-card');
+            animateElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                observer.observe(el);
+            });
+        });
+
+        // Counter Animation for Statistics (if needed in the future)
+        function animateCounter(element, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            const timer = setInterval(() => {
+                start += increment;
+                element.textContent = Math.floor(start);
+                
+                if (start >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 16);
+        }
+
+        // Lazy Loading for Images (if needed)
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        // Keyboard Navigation Support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks.classList.contains('active')) {
+                    toggleMenu();
+                }
+            }
+        });
+
+        // Focus Management for Accessibility
+        const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        
+        function trapFocus(element) {
+            const focusableContent = element.querySelectorAll(focusableElements);
+            const firstFocusableElement = focusableContent[0];
+            const lastFocusableElement = focusableContent[focusableContent.length - 1];
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstFocusableElement) {
+                            lastFocusableElement.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastFocusableElement) {
+                            firstFocusableElement.focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+            });
+        }
+
+        // Print Styles (for better printing experience)
+        window.addEventListener('beforeprint', function() {
+            document.body.classList.add('printing');
+        });
+
+        window.addEventListener('afterprint', function() {
+            document.body.classList.remove('printing');
+        });
+
+        // Performance Optimization: Debounce Scroll Events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Optimized Scroll Handler
+        const optimizedScrollHandler = debounce(function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'var(--white)';
+                header.style.backdropFilter = 'none';
+            }
+        }, 10);
+
+        window.addEventListener('scroll', optimizedScrollHandler);
+
+        // Service Worker Registration for PWA (Progressive Web App)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Service worker would be registered here for offline functionality
+                console.log('PWA capabilities available');
+            });
+        }
+
+        // Analytics and User Interaction Tracking (placeholder)
+        function trackUserInteraction(action, element) {
+            // This would integrate with analytics services
+            console.log(`User interaction: ${action} on ${element}`);
+        }
+
+        // Enhanced Error Handling
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript error:', e.error);
+            // Could send error reports to monitoring service
+        });
+
+        // Accessibility Announcements
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.style.position = 'absolute';
+            announcement.style.left = '-10000px';
+            announcement.style.width = '1px';
+            announcement.style.height = '1px';
+            announcement.style.overflow = 'hidden';
+            announcement.textContent = message;
+            
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        }
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Announce page load to screen readers
+            announceToScreenReader('PoClick - Página carregada com sucesso');
+            
+            // Set focus to main content on page load
+            document.querySelector('main') && document.querySelector('main').focus();
+            
+            console.log('PoClick website initialized successfully');
+        });
+    </script>
+</body>
+</html>
