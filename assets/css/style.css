@@ -6,20 +6,13 @@
     --text-color-default: #fff;
 
     --text-color: #2C3E50;
-    --bg-default: #f9f9f9;
+    --bg-default: #f0f0f0;
     --bg-card: #ffffff;
 
     --color-help: #ccc;
 
-
-    --primary-blue: #3498db;
-    --dark-blue: #f00;
-    --light-blue: #ecf0f1;
-    --green-accent: #27ae60;
     --white: #ffffff;
-    --gray-light: #f8f9fa;
-    --gray-medium: #6c757d;
-    --text-dark: #2c3e50;
+
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 25px rgba(95, 92, 92, 0.15);
 }
@@ -94,7 +87,6 @@ nav {
     display: flex;
     list-style: none;
     gap: 2rem;
-    background-color: var(--bg-default);
 }
 
 .nav-links a {
@@ -540,14 +532,14 @@ footer {
         top: 100%;
         left: 0;
         width: 100%;
-        background: var(--bg-default);
+        background: var(--bg-card);
         flex-direction: column;
         padding: 1rem;
         box-shadow: var(--shadow);
         transform: translateY(-100%);
         opacity: 0;
         visibility: hidden;
-        transition: all 0.3s ease;
+        transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
         display: none;
     }
 
@@ -556,6 +548,12 @@ footer {
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
+    }
+
+    @starting-style {
+        .nav-links.active {
+            opacity: 0;
+        }
     }
 
     .hero h1 {
