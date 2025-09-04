@@ -94,6 +94,7 @@ nav {
     display: flex;
     list-style: none;
     gap: 2rem;
+    background-color: var(--bg-default);
 }
 
 .nav-links a {
@@ -539,7 +540,7 @@ footer {
         top: 100%;
         left: 0;
         width: 100%;
-        background: white;
+        background: var(--bg-default);
         flex-direction: column;
         padding: 1rem;
         box-shadow: var(--shadow);
@@ -547,9 +548,11 @@ footer {
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
+        display: none;
     }
 
     .nav-links.active {
+        display: flex;
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
